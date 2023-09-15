@@ -24,16 +24,49 @@ require 'dxruby'
 for map_y in 0..15 do
   for map_x in 0..17 do
     case @map[map_y][map_x]
+
     when 0
       image = Image.new(32, 32, [0x00, 0x99, 0xff])  # 背景１（空）
-    when 1
-      image = Image.new(32, 32, [0x66, 0x33, 0x00])  # 障害物（ブロック）
-    when 2
-      image = Image.new(32, 32, [0xff, 0xff, 0xff])  # 背景２（雲）
+    else
+        image=nil
     end
     @map_sprites.push(Sprite.new(map_x * 32, map_y * 32, image))
   end
 end
+
+
+
+@map_sprites_cloud = []
+
+for map_y in 0..15 do
+  for map_x in 0..17 do
+    case @map[map_y][map_x]
+    
+    when 1
+      image = Image.new(32, 32, [0x66,0x33,0x00])  #地面
+    else
+        image=nil
+    end
+    @map_sprites_cloud.push(Sprite.new(map_x * 32, map_y * 32, image))
+  end
+end
+
+
+@map_sprites_ground = []
+
+for map_y in 0..15 do
+  for map_x in 0..17 do
+    case @map[map_y][map_x]
+
+    when 2
+      image = Image.new(32, 32, [0xff, 0xff, 0xff])  #雲
+    else
+        image=nil
+    end
+    @map_sprites_ground.push(Sprite.new(map_x * 32, map_y * 32, image))
+  end
+end
+
 
 #キャラ
 #@char_tile = Image.new(32, 32, C_RED)
@@ -53,6 +86,9 @@ char = Sprite.new(x, y, image_char)
 Window.loop do
   # マップの表示
   @map_sprites.each { |sprite| sprite.draw }
+  @map_sprites_cloud.each { |sprite| sprite.draw }
+  @map_sprites_ground.each { |sprite| sprite.draw }
+
 
   #左右移動
   #x += Input.x * 2
