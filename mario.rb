@@ -29,6 +29,8 @@ require "dxruby"
 @char_tile.set_color_key(C_WHITE)
 #フレーム数設定
 Window.fps = 30
+#サウンド
+sound_effect = Sound.new('se_jump_001.wav')
 
 #初期値設定
 x = 32
@@ -92,7 +94,11 @@ Window.loop do
   #ジャンプ
   if Input.key_push?(K_SPACE) and jump_ok
     f = -20
+    sound_effect.play
   end
+  
+  
+  
 
   #マップの表示
   Window.draw_tile(0,0,@map,@map_tile,0,0,17,15)
