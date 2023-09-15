@@ -1,8 +1,8 @@
 require 'dxruby'
 
 # ウィンドウのサイズ
-WINDOW_WIDTH = 6000
-WINDOW_HEIGHT = 6000
+WINDOW_WIDTH = 600
+WINDOW_HEIGHT = 600
 #初期値設定
 x = 32
 y = y_prev = 32
@@ -78,28 +78,24 @@ for map_y in 0..15 do
     end
   end
 
-
- #background_sprite_ground = Sprite.new(32, 32,image)
-  #background_sprite_cloud = Sprite.new(32, 0, @map_sprites_cloud)
-  #background_sprites = Sprite.new(32, 0, @map_sprites)
-
 Window.loop do
 
 
 
     for num in 0..100 do
     
-        @map_sprites_ground[num].x += 1
+        @map_sprites_ground[num].x -= 1
+        @map_sprites[num].x -= 1
+        @map_sprites_cloud[num].x -= 1
       
     end
-    if map_x >= WINDOW_WIDTH
-        map_x = 0
+    if @map_sprites_ground[num].x >= WINDOW_WIDTH
+        @map_sprites_ground[num].x = 0
     end
 
- #@map_sprite.x= -map_x  # スプライトの位置を設定してスクロールを表現
  #@map_sprite.draw
   # マップの表示
-  @map_sprites_ground.each { |sprite| sprite.draw }
+ @map_sprites_ground.each { |sprite| sprite.draw }
 
   #左右移動
   x += Input.x * 2
