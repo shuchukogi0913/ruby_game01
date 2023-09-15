@@ -4,8 +4,7 @@ require 'dxruby'
 WINDOW_WIDTH = 6000
 WINDOW_HEIGHT = 6000
 
-# カメラの座標
-camera_x = 0
+
 
 # マップデータ
 @map = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0],
@@ -49,7 +48,8 @@ x = 32
 y = y_prev = 32
 f = 2
 jump_ok = false
-count = 0
+# カメラの座標
+camera_x = 0
 
 
 Window.loop do
@@ -58,10 +58,10 @@ Window.loop do
   camera_x += 2  # スクロール速度を調整できます
 
   # カメラがマップの端に達したらリセット
-  if camera_x >= background_map[0].length * TILE_SIZE
+  if camera_x >= background_map[0].length * 32
     camera_x = 0
   end
-  map_x += 1
+
 
   # マップの表示
   @map_sprites.each { |sprite| sprite.draw }

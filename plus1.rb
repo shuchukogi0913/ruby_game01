@@ -3,9 +3,13 @@ require 'dxruby'
 # ウィンドウのサイズ
 WINDOW_WIDTH = 6000
 WINDOW_HEIGHT = 6000
+#初期値設定
+x = 32
+y = y_prev = 32
+f = 2
+jump_ok = false
 
-# カメラの座標
-camera_x = 0
+
 
 # マップデータ
 @map = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0],
@@ -29,48 +33,79 @@ camera_x = 0
 @map_sprites = []
 
 for map_y in 0..15 do
-  for map_x in 0..25 do
-    case @map[map_y][map_x]
-    when 0
-      image = Image.new(32, 32, [0x00, 0x99, 0xff])  # 背景１（空）
-    when 1
-      image = Image.new(32, 32, [0x66, 0x33, 0x00])  # 障害物（ブロック）
-    when 2
-      image = Image.new(32, 32, [0xff, 0xff, 0xff])  # 背景２（雲）
+    for map_x in 0..17 do
+      case @map[map_y][map_x]
+  
+      when 0
+        image = Image.new(32, 32, [0x00, 0x99, 0xff])  # 背景１（空）
+      else
+          image=nil
+      end
+      @map_sprites.push(Sprite.new(map_x * 32, map_y * 32, image))
     end
-    @map_sprites.push(Sprite.new(map_x * 32, map_y * 32, image))
   end
-end
+  
+  
+  
+  @map_sprites_cloud = []
+  
+  for map_y in 0..15 do
+    for map_x in 0..17 do
+      case @map[map_y][map_x]
+      
+      when 1
+        image = Image.new(32, 32, [0x66,0x33,0x00])  #地面
+      else
+          image=nil
+      end
+      @map_sprites_cloud.push(Sprite.new(map_x * 32, map_y * 32, image))
+    end
+  end
+  
+  
+  @map_sprites_ground = []
+  
+  for map_y in 0..15 do
+    for map_x in 0..17 do
+      case @map[map_y][map_x]
+  
+      when 2
+        image = Image.new(32, 32, [0xff, 0xff, 0xff])  #雲
+      else
+          image=nil
+      end
+      @map_sprites_ground.push(Sprite.new(map_x * 32, map_y * 32, image))
+    end
+  end
 
-#キャラ
-@char_tile = Image.new(32, 32, C_RED)
-#初期値設定
-x = 32
-y = y_prev = 32
-f = 2
-jump_ok = false
-count = 0
 
+ #background_sprite_ground = Sprite.new(32, 32,image)
+  #background_sprite_cloud = Sprite.new(32, 0, @map_sprites_cloud)
+  #background_sprites = Sprite.new(32, 0, @map_sprites)
 
 Window.loop do
 
-  # カメラの座標を更新してスクロールを実現
-  camera_x += 2  # スクロール速度を調整できます
 
-  # カメラがマップの端に達したらリセット
-  if camera_x >= background_map[0].length * TILE_SIZE
-    camera_x = 0
-  end
-  map_x += 1
 
+    for num in 0..100 do
+    
+        @map_sprites_ground[num].x += 1
+      
+    end
+    if map_x >= WINDOW_WIDTH
+        map_x = 0
+    end
+
+ #@map_sprite.x= -map_x  # スプライトの位置を設定してスクロールを表現
+ #@map_sprite.draw
   # マップの表示
-  @map_sprites.each { |sprite| sprite.draw }
+  @map_sprites_ground.each { |sprite| sprite.draw }
 
   #左右移動
   x += Input.x * 2
 
    #キャラの表示
-   Window.draw(x, y, @char_tile)
+   #Window.draw(x, y, @char_tile)
  
 
  #ジャンプ
@@ -93,5 +128,9 @@ Window.loop do
     x = 32
     y = y_prev = 0
   end
+  
+  
+  
+  
   
 end
