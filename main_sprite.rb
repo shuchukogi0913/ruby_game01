@@ -19,6 +19,7 @@ require 'dxruby'
         [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1]]
 
 # スプライトの配列
+#空
 @map_sprites = []
 
 for map_y in 0..15 do
@@ -35,7 +36,7 @@ for map_y in 0..15 do
 end
 
 
-
+#地面
 @map_sprites_cloud = []
 
 for map_y in 0..15 do
@@ -51,7 +52,7 @@ for map_y in 0..15 do
   end
 end
 
-
+#雲
 @map_sprites_ground = []
 
 for map_y in 0..15 do
@@ -71,6 +72,7 @@ end
 #キャラ
 #@char_tile = Image.new(32, 32, C_RED)
 #初期値設定
+
 x = 32
 y = y_prev = 32
 f = 2
@@ -92,9 +94,43 @@ Window.loop do
 
   #左右移動
   #x += Input.x * 2
-
    #キャラの表示
    #Window.draw(x, y, @char_tile)
+
+
+
+
+
+   #天井衝突判定
+     if (collision_tile(x   , y, @map) == 1 or 
+        collision_tile(x+31, y, @map) == 1) 
+       char.y = char.y/32*32 + 32
+     end
+    
+     #床衝突判定
+     if collision_tile(x   , y+31, @map) == 1 or 
+        collision_tile(x+31, y+31, @map) == 1
+       char.y = char.y/32*32
+       jump_ok = true #地面に接地しているのでジャンプを許可する
+     else
+       jump_ok = false #地面に接地していないので、ジャンプは許可しない
+     end
+    
+      #壁衝突判定（左側）
+      if collision_tile(x, y   , @map) == 1 or 
+         collision_tile(x, y+31, @map) == 1
+        char.x = char.x/32*32 + 32
+      end
+      #壁衝突判定（右側）
+      if collision_tile(x+31, y   , @map) == 1 or 
+         collision_tile(x+31, y+31, @map) == 1 
+        char.x = char.x/32*32
+      end
+
+
+
+
+
    if Input.key_down?(K_LEFT)
         char.x -= 1
    end
@@ -106,12 +142,9 @@ Window.loop do
    #if Input.key_down?(K_UP)
     #    char.y -= 1
    #end
-
    #if Input.key_down?(K_DOWN)
     #    char.y += 1
    #end
-
-
   char.draw
 
 
@@ -136,4 +169,20 @@ Window.loop do
     char.y = y_prev = 0
   end
   
+    for num in 0..100 do
+    
+        @map_sprites_ground[num].x += 1
+      
+    end
+
+
+
+
+
+
+
+
+
+
+
 end
