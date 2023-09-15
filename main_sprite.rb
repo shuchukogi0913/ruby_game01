@@ -18,6 +18,9 @@ require 'dxruby'
         [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1],
         [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1]]
 
+        maphight=18
+        mapwideth=16
+
 # スプライトの配列
 #空
 @map_sprites = []
@@ -37,7 +40,7 @@ end
 
 
 #地面
-@map_sprites_cloud = []
+@map_sprites_ground = []
 
 for map_y in 0..15 do
   for map_x in 0..17 do
@@ -48,12 +51,12 @@ for map_y in 0..15 do
     else
         image=nil
     end
-    @map_sprites_cloud.push(Sprite.new(map_x * 32, map_y * 32, image))
+    @map_sprites_ground.push(Sprite.new(map_x * 32, map_y * 32, image))
   end
 end
 
 #雲
-@map_sprites_ground = []
+@map_sprites_cloud = []
 
 for map_y in 0..15 do
   for map_x in 0..17 do
@@ -64,7 +67,7 @@ for map_y in 0..15 do
     else
         image=nil
     end
-    @map_sprites_ground.push(Sprite.new(map_x * 32, map_y * 32, image))
+    @map_sprites_cloud.push(ground=Sprite.new(map_x * 32, map_y * 32, image))
   end
 end
 
@@ -102,30 +105,30 @@ Window.loop do
 
 
    #天井衝突判定
-     if (collision_tile(x   , y, @map) == 1 or 
-        collision_tile(x+31, y, @map) == 1) 
-       char.y = char.y/32*32 + 32
-     end
+     #if char===map_sprites_ground
+      # char.y = char.y/32*32 + 32
+     #end
     
      #床衝突判定
-     if collision_tile(x   , y+31, @map) == 1 or 
-        collision_tile(x+31, y+31, @map) == 1
-       char.y = char.y/32*32
-       jump_ok = true #地面に接地しているのでジャンプを許可する
-     else
-       jump_ok = false #地面に接地していないので、ジャンプは許可しない
-     end
+
+     for num in 0..(maphight*mapwideth)-1 do
+                  if char === @map_sprites_ground[num]
+                        char.y = char.y
+                        char.x = char.x
+        jump_ok = true #地面に接地しているのでジャンプを許可する
+      else
+       jump_ok = true #地面に接地していないので、ジャンプは許可しない
+      end
+            end
     
       #壁衝突判定（左側）
-      if collision_tile(x, y   , @map) == 1 or 
-         collision_tile(x, y+31, @map) == 1
-        char.x = char.x/32*32 + 32
-      end
+     # if char===map_sprites_ground
+      #  char.x = char.x/32*32 + 32
+      #end
       #壁衝突判定（右側）
-      if collision_tile(x+31, y   , @map) == 1 or 
-         collision_tile(x+31, y+31, @map) == 1 
-        char.x = char.x/32*32
-      end
+      #if char===map_sprites_ground
+       # char.x = char.x/32*32
+      #end
 
 
 
@@ -169,20 +172,13 @@ Window.loop do
     char.y = y_prev = 0
   end
   
-    for num in 0..100 do
+    for num in 0..(maphight*mapwideth)-1 do
     
-        @map_sprites_ground[num].x += 1
+        @map_sprites[num].x -= 1
+        @map_sprites_cloud[num].x -= 1
+        @map_sprites_ground[num].x -= 1
       
     end
-
-
-
-
-
-
-
-
-
 
 
 end
