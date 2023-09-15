@@ -31,6 +31,7 @@ require "dxruby"
 Window.fps = 30
 #サウンド
 sound_effect = Sound.new('se_jump_001.wav')
+sound_effect1 = Sound.new('se_powerdown_007.wav')
 
 #初期値設定
 x = 32
@@ -58,6 +59,7 @@ Window.loop do
 
   #穴に落ちたら座標を初期化
   if y >= 480
+    sound_effect1.play
     x = 32
     y = y_prev = 0
   end
