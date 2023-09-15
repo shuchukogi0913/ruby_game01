@@ -36,46 +36,68 @@ for map_y in 0..15 do
 end
 
 #キャラ
-char_tile = Image.new(32, 32, C_RED)
+#@char_tile = Image.new(32, 32, C_RED)
 #初期値設定
 x = 32
 y = y_prev = 32
 f = 2
 jump_ok = false
 
-char_sprite =Sprite.new (x, y, char_tile)
+
+
+image_char = Image.new(32, 32, C_GREEN)
+char = Sprite.new(x, y, image_char)
+
+
 
 Window.loop do
   # マップの表示
   @map_sprites.each { |sprite| sprite.draw }
 
   #左右移動
-  x += Input.x * 2
+  #x += Input.x * 2
 
    #キャラの表示
    #Window.draw(x, y, @char_tile)
-   char_sprite.draw
- 
+   if Input.key_down?(K_LEFT)
+        char.x -= 1
+   end
 
-#ジャンプ
+   if Input.key_down?(K_RIGHT)
+        char.x += 1
+   end
+
+   #if Input.key_down?(K_UP)
+    #    char.y -= 1
+   #end
+
+   #if Input.key_down?(K_DOWN)
+    #    char.y += 1
+   #end
+
+
+  char.draw
+
+
+ #ジャンプ
   if Input.key_push?(K_SPACE) and jump_ok
     f = -20
   end
 
   #Ｙ軸移動増分の設定
-  y_move = (y - y_prev) + f
+  y_move = (char.y - y_prev) + f
   #座標増分が１ブロックを超えないように補正
   if y_move > 31
     y_move = 31
   end
-  y_prev = y
-  y += y_move
+  y_prev = char.y
+  char.y += y_move
   f = 2 #f値を初期化し直す
 
   #穴に落ちたら座標を初期化
-  if y >= 480
-    x = 32
-    y = y_prev = 0
+  if char.y >= 480
+    char.x = 32
+    char.y = y_prev = 0
   end
   
 end

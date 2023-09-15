@@ -22,9 +22,9 @@ require "dxruby"
 
 #配置パーツ
 @map_tile = []
-@map_tile[0] = Sprite.new(sky_x,sky_y,Image.new(32, 32, [0x00,0x99,0xff])) #背景１（空）
-@map_tile[1] = Sprite.new(ground_x,ground_y,Image.new(32, 32, [0x66,0x33,0x00])) #障害物（ブロック）
-@map_tile[2] = Sprite.new(cloud_x,cloud_y,Image.new(32, 32, [0xff,0xff,0xff])) #背景２（雲）
+@map_tile[0] = Image.new(32, 32, [0x00,0x99,0xff]) #背景１（空）
+@map_tile[1] = Image.new(32, 32, [0x66,0x33,0x00]) #障害物（ブロック）
+@map_tile[2] = Image.new(32, 32, [0xff,0xff,0xff]) #背景２（雲）
 
 #キャラ
 @char_tile = Image.new(32, 32, C_RED)
