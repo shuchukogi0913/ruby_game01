@@ -1,24 +1,24 @@
 require 'dxruby'
 
 # マップデータ
-@map = [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 1],
-        [1, 0, 0, 1, 1, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 1],
-        [1, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-        [1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1],
-        [1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1],
-        [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1],
-        [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1]]
+@map = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0,0,0,0,2,2,0,0,0],
+        [0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0,0,0,2,2,0,0,0,0],
+        [0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,0,0,0,0,1,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,1,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0,0,0,0,0,0,0,0,0],
+        [1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0,0,0,1,0,0,1,1,1],
+        [1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0,0,0,1,0,0,1,1,1]]
 
-        maphight=18
+        maphight=26
         mapwideth=16
 
 # スプライトの配列
@@ -26,7 +26,7 @@ require 'dxruby'
 @map_sprites = []
 
 for map_y in 0..15 do
-  for map_x in 0..17 do
+  for map_x in 0..25 do
     case @map[map_y][map_x]
 
     when 0
@@ -43,7 +43,7 @@ end
 @map_sprites_ground = []
 
 for map_y in 0..15 do
-  for map_x in 0..17 do
+  for map_x in 0..25 do
     case @map[map_y][map_x]
     
     when 1
@@ -59,7 +59,7 @@ end
 @map_sprites_cloud = []
 
 for map_y in 0..15 do
-  for map_x in 0..17 do
+  for map_x in 0..25 do
     case @map[map_y][map_x]
 
     when 2
@@ -70,7 +70,6 @@ for map_y in 0..15 do
     @map_sprites_cloud.push(ground=Sprite.new(map_x * 32, map_y * 32, image))
   end
 end
-
 
 #キャラ
 #@char_tile = Image.new(32, 32, C_RED)
@@ -88,7 +87,18 @@ last_char_y=y
 
 
 
-image_char = Image.new(32, 32, C_GREEN)
+
+image_char = Image.load("image/gori.png")
+image_char.set_color_key(C_WHITE)
+
+#サウンド
+sound_effect = Sound.new('se_jump_001.wav')
+sound_effect1 = Sound.new('se_powerdown_007.wav')
+
+font = Font.new(32)  #フォントの設定
+
+
+
 char = Sprite.new(x, y, image_char)
 
 
@@ -129,11 +139,19 @@ Window.loop do
    if Input.key_down?(K_DOWN)
      char.y += 1
    end/
-
+   #ジャンプ判定
+   for num in 0..(maphight*mapwideth)-1 do
+   if char.y < @map_sprites_ground[num].y
+      jump_ok = true #地面に接地しているのでジャンプを許可する
+    else
+      jump_ok = false #地面に接地していないので、ジャンプは許可しない
+    end
+  end
 
  #ジャンプ
- if Input.key_push?(K_SPACE) and jump_ok
+ if Input.key_push?(K_SPACE) and jump_ok==true
   f = -20
+  sound_effect.play
  end
  #Ｙ軸移動増分の設定
  y_move = (char.y - y_prev) + f
@@ -145,10 +163,23 @@ Window.loop do
  char.y += y_move
  f = 2 #f値を初期化し直す
 
- #穴に落ちたら座標を初期化
+
+ #リスポーン
  if char.y >= 480
-   char.x = 32
-   char.y = y_prev = 0
+   sound_effect1.play
+   /char.x = 32
+   char.y = y_prev = 0/
+
+   Window.draw_font(100, 100, "GAME OVER! Push space to retry.", font)
+   if Input.key_push?(K_SPACE)
+     
+     char.x = 32
+     char.y = y_prev = 0
+   end
+
+
+
+
  end
 
  /#地面判定
@@ -207,10 +238,6 @@ Window.loop do
                   #char.y = @map_sprites_ground[num].y-32
                   #char.y=char.y/32*32
                   char.y=last_char_y-1
-                  jump_ok = true #地面に接地しているのでジャンプを許可する
-                else
-                  jump_ok = false #地面に接地していないので、ジャンプは許可しない
-                     
                 end
 
               end
@@ -223,8 +250,6 @@ Window.loop do
                   char.y=last_char_y+1
                 end
 
-             
-
             end
 
           end
@@ -235,6 +260,15 @@ Window.loop do
      @map_sprites[num].x -= wall_speed
      @map_sprites_cloud[num].x -= wall_speed
      @map_sprites_ground[num].x -= wall_speed
+            #クリア時
+            if @map_sprites_cloud[num].x <=-700
+              font = Font.new(32)
+              Window.draw_font(100, 100, "CONGRATULATIONS!!!!!", font)
+            end
+  
+              if @map_sprites_cloud[num].x <=-750
+               # exit
+              end
     
    end
 
