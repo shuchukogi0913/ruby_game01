@@ -1,4 +1,3 @@
-
 require 'dxruby'
 #ゲームのウィンドウを作成します。
 Window.width = 800
@@ -23,4 +22,4 @@ Window.loop do
     Window.draw(background_x, 0, background)
     Window.draw(background_x - background.width, 0, background)  # ループするために2回描画
   end
- 
+  
