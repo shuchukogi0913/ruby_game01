@@ -25,10 +25,15 @@ require "dxruby"
 @map_tile[2] = Image.new(32, 32, [0xff,0xff,0xff]) #背景２（雲）
 
 #キャラ
-@char_tile = Image.new(32, 32, C_RED)
 
+@char_tile = Image.load('gori.png')
+@char_tile.set_color_key(C_WHITE)
 #フレーム数設定
 Window.fps = 30
+#サウンド
+sound_effect = Sound.new('se_jump_001.wav')#ジャンプ
+sound_effect1 = Sound.new('se_powerdown_007.wav')#落下時
+
 
 #初期値設定
 x = 32
@@ -61,7 +66,12 @@ Window.loop do
 
   #穴に落ちたら座標を初期化
   if y >= 480
+
+
     life -=1
+
+    sound_effect1.play#サウンド
+
     x = 32
     y = y_prev = 0
   end
@@ -98,6 +108,7 @@ Window.loop do
     x = x/32*32
   end
 
+
   #2段ジャンプ
   if Input.key_push?(K_SPACE)
   #ジャンプ1
@@ -110,7 +121,12 @@ Window.loop do
       f = -10
     end
     jump_count -=1
+
+
   end
+  
+  
+  
 
   #マップの表示
   Window.draw_tile(0,0,@map,@map_tile,0,0,17,15)
