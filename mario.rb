@@ -19,12 +19,25 @@ require 'dxruby'
         [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
 
 
+<<<<<<< HEAD
         maphight=16
         mapwideth=31
 
 # スプライトの配列
 #空
 @map_sprites = []
+=======
+#キャラ
+
+@char_tile = Image.load('gori.png')
+@char_tile.set_color_key(C_WHITE)
+#フレーム数設定
+Window.fps = 30
+#サウンド
+sound_effect = Sound.new('se_jump_001.wav')#ジャンプ
+sound_effect1 = Sound.new('se_powerdown_007.wav')#落下時
+
+>>>>>>> 7c2adf547fffc8399505a26d86c221cec473a33e
 
 for map_y in 0..15 do
   for map_x in 0..30 do
@@ -135,9 +148,21 @@ Window.loop do
   f = 2 #f値を初期化し直す
 
   #穴に落ちたら座標を初期化
+<<<<<<< HEAD
   if char.y >= 480
     char.x = 32
     char.y = y_prev = 0
+=======
+  if y >= 480
+
+
+    life -=1
+
+    sound_effect1.play#サウンド
+
+    x = 32
+    y = y_prev = 0
+>>>>>>> 7c2adf547fffc8399505a26d86c221cec473a33e
   end
   
   #スクロール
@@ -153,7 +178,43 @@ Window.loop do
             Window.draw_font(100, 100, "CONGRATULATIONS!!!!!", font)
         end
 
+<<<<<<< HEAD
     end
+=======
+  #左右移動
+  x += Input.x * 2
+
+  #壁衝突判定（左側）
+  if collision_tile(x, y   , @map) == 1 or 
+     collision_tile(x, y+31, @map) == 1
+    x = x/32*32 + 32
+  end
+  #壁衝突判定（右側）
+  if collision_tile(x+31, y   , @map) == 1 or 
+     collision_tile(x+31, y+31, @map) == 1 
+    x = x/32*32
+  end
+
+
+  #2段ジャンプ
+  if Input.key_push?(K_SPACE)
+  #ジャンプ1
+    if jump_ok1 and jump_count >0
+      f = -15
+    end
+  
+  #ジャンプ2
+    if jump_ok2 and jump_count >0
+      f = -10
+    end
+    jump_count -=1
+
+
+  end
+  
+  
+  
+>>>>>>> 7c2adf547fffc8399505a26d86c221cec473a33e
 
 
 end
