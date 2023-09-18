@@ -1,39 +1,90 @@
-require "dxruby"
+require 'dxruby'
 
-#マップデータ
-@map = [[1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0],
-        [1, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-        [1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0],
-        [1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0],
-        [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1],
-        [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1]]
+# マップデータ
+@map = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 1, 1, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
 
-#配置パーツ
-@map_tile = []
-@map_tile[0] = Image.new(32, 32, [0x00,0x99,0xff]) #背景１（空）
-@map_tile[1] = Image.new(32, 32, [0x66,0x33,0x00]) #障害物（ブロック）
-@map_tile[2] = Image.new(32, 32, [0xff,0xff,0xff]) #背景２（雲）
 
-#キャラ
+        maphight=16
+        mapwideth=31
 
-@char_tile = Image.load('gori.png')
-@char_tile.set_color_key(C_WHITE)
+# スプライトの配列
+#空
+@map_sprites = []
+
+for map_y in 0..15 do
+  for map_x in 0..30 do
+    case @map[map_y][map_x]
+
+    when 0
+      image = Image.new(32, 32, [0x00, 0x99, 0xff])  # 背景１（空）
+    else
+        image=nil
+    end
+    @map_sprites.push(Sprite.new(map_x * 32, map_y * 32, image))
+  end
+end
+
+
+#地面
+@map_sprites_cloud = []
+
+for map_y in 0..15 do
+  for map_x in 0..30 do
+    case @map[map_y][map_x]
+    
+    when 1
+      image = Image.new(32, 32, [0x66,0x33,0x00])  #地面
+    else
+        image=nil
+    end
+    @map_sprites_cloud.push(Sprite.new(map_x * 32, map_y * 32, image))
+  end
+end
+
+#雲
+@map_sprites_ground = []
+
+for map_y in 0..15 do
+  for map_x in 0..30 do
+    case @map[map_y][map_x]
+
+    when 2
+      image = Image.new(32, 32, [0xff, 0xff, 0xff])  #雲
+    else
+        image=nil
+    end
+    @map_sprites_ground.push(Sprite.new(map_x * 32, map_y * 32, image))
+  end
+end
+
+
+#キャラゴリラ
+#@char_tile = Image.load('gori.png')
+#@char_tile.set_color_key(C_WHITE)
 #フレーム数設定
 Window.fps = 30
 #サウンド
 #sound_effect = Sound.new('se_jump_001.wav')#ジャンプ
 #sound_effect1 = Sound.new('se_powerdown_007.wav')#落下時
 
+#キャラ◇
+image_char = Image.new(32, 32, C_GREEN)
+char = Sprite.new(x, y, image_char)
 
 #初期値設定
 x = 32
@@ -54,6 +105,10 @@ life=2  #LIFEの初期化
 #ゲームループ
 Window.loop do
   
+  @map_sprites.each { |sprite| sprite.draw }
+  @map_sprites_cloud.each { |sprite| sprite.draw }
+  @map_sprites_ground.each { |sprite| sprite.draw }
+
   #Ｙ軸移動増分の設定
   y_move = (y - y_prev) + f
   #座標増分が１ブロックを超えないように補正
@@ -128,8 +183,7 @@ Window.loop do
   
   
 
-  #マップの表示
-  Window.draw_tile(0,0,@map,@map_tile,0,0,17,15)
+ 
 
   #キャラの表示
   if life > 0  #lifeが0になったら非表示
@@ -148,5 +202,20 @@ Window.loop do
       y = y_prev = 0
     end
   end
+
+  #スクロール
+  for num in 0..(maphight*mapwideth)-1 do
+    
+    @map_sprites[num].x -= 1
+    @map_sprites_cloud[num].x -= 1
+    @map_sprites_ground[num].x -= 1
+    
+    #クリア時
+    if @map_sprites_cloud[num].x <=-900
+        #exit
+        Window.draw_font(100, 100, "CONGRATULATIONS!!!!!", font)
+    end
+
+end
 
 end
