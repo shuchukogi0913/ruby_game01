@@ -80,6 +80,10 @@ x = 32
 y = y_prev = 32
 f = 2
 jump_ok = false
+speed=2
+last_char_x=x
+last_char_y=y
+
 
 
 
@@ -89,96 +93,143 @@ char = Sprite.new(x, y, image_char)
 
 
 Window.loop do
+  
   # マップの表示
   @map_sprites.each { |sprite| sprite.draw }
   @map_sprites_cloud.each { |sprite| sprite.draw }
   @map_sprites_ground.each { |sprite| sprite.draw }
 
-
-  #左右移動
-  #x += Input.x * 2
-   #キャラの表示
-   #Window.draw(x, y, @char_tile)
-
-
-
-
-
-   #天井衝突判定
-     #if char===map_sprites_ground
-      # char.y = char.y/32*32 + 32
-     #end
-    
-     #床衝突判定
-
-     for num in 0..(maphight*mapwideth)-1 do
-                  if char === @map_sprites_ground[num]
-                        char.y = char.y
-                        char.x = char.x
-        jump_ok = true #地面に接地しているのでジャンプを許可する
-      else
-       jump_ok = true #地面に接地していないので、ジャンプは許可しない
+  #操作
+  if Input.key_down?(K_LEFT)
+    char.x -= 1*speed
+    for num in 0..(maphight*mapwideth)-1 do
+      if char === @map_sprites_ground[num]
+        char.x = last_char_x
       end
-            end
+    end
     
-      #壁衝突判定（左側）
-     # if char===map_sprites_ground
-      #  char.x = char.x/32*32 + 32
-      #end
-      #壁衝突判定（右側）
-      #if char===map_sprites_ground
-       # char.x = char.x/32*32
-      #end
+  end
 
+ if Input.key_down?(K_RIGHT)
+    char.x += 1*speed
+    for num in 0..(maphight*mapwideth)-1 do
+      if char === @map_sprites_ground[num]
+        char.x = last_char_x
+      end
+    end
 
+ end
 
-
-
-   if Input.key_down?(K_LEFT)
-        char.x -= 1
-   end
-
-   if Input.key_down?(K_RIGHT)
-        char.x += 1
-   end
-
-   #if Input.key_down?(K_UP)
-    #    char.y -= 1
-   #end
-   #if Input.key_down?(K_DOWN)
-    #    char.y += 1
-   #end
-  char.draw
+   /if Input.key_down?(K_UP)
+       char.y -= 1
+      end
+   if Input.key_down?(K_DOWN)
+     char.y += 1
+   end/
 
 
  #ジャンプ
-  if Input.key_push?(K_SPACE) and jump_ok
-    f = -20
-  end
+ if Input.key_push?(K_SPACE) and jump_ok
+  f = -20
+ end
+ #Ｙ軸移動増分の設定
+ y_move = (char.y - y_prev) + f
+ #座標増分が１ブロックを超えないように補正
+ if y_move > 31
+   y_move = 31
+ end
+ y_prev = char.y
+ char.y += y_move
+ f = 2 #f値を初期化し直す
 
-  #Ｙ軸移動増分の設定
-  y_move = (char.y - y_prev) + f
-  #座標増分が１ブロックを超えないように補正
-  if y_move > 31
-    y_move = 31
-  end
-  y_prev = char.y
-  char.y += y_move
-  f = 2 #f値を初期化し直す
+ #穴に落ちたら座標を初期化
+ if char.y >= 480
+   char.x = 32
+   char.y = y_prev = 0
+ end
 
-  #穴に落ちたら座標を初期化
-  if char.y >= 480
-    char.x = 32
-    char.y = y_prev = 0
-  end
-  
+ #地面判定
+  for num in 0..(maphight*mapwideth)-1 do
+    if char === @map_sprites_ground[num]
+      
+          char.y = last_char_y
+          
+          jump_ok = true #地面に接地しているのでジャンプを許可する
+          dx= char.x-last_char_x   
+          dy= char.y-last_char_y
+          
+    else
+     　　jump_ok = false #地面に接地していないので、ジャンプは許可しない
+    end
+   end
+
+
+
+          for num in 0..(maphight*mapwideth)-1 do
+
+            
+
+              #左から衝突
+
+              /if char.x < @map_sprites_ground[num].x and char.y == @map_sprites_ground[num].y and  char === @map_sprites_ground[num]
+                char.x = @map_sprites_ground[num].x-16
+              end
+            
+             #右から衝突
+            
+              if char.x > @map_sprites_ground[num].x and char.y == @map_sprites_ground[num].y and  char === @map_sprites_ground[num]
+                char.x = @map_sprites_ground[num].x+16
+              end/
+    
+             /#地面
+            
+             if char.x == @map_sprites_ground[num].x
+
+              #if char.y < @map_sprites_ground[num].y   
+              if char === @map_sprites_ground[num]
+                char.y = @map_sprites_ground[num].y-16
+              end
+            
+             #天井
+            
+              if char.y > @map_sprites_ground[num].y 
+                char.y = @map_sprites_ground[num].y+16
+              end
+             end/
+
+            end
+          
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+   
+   #スクロール
     for num in 0..(maphight*mapwideth)-1 do
     
-        @map_sprites[num].x -= 1
-        @map_sprites_cloud[num].x -= 1
-        @map_sprites_ground[num].x -= 1
-      
-    end
+     @map_sprites[num].x -= 0.5
+     @map_sprites_cloud[num].x -= 0.5
+     @map_sprites_ground[num].x -= 0.5
+    
+   end
 
+   char.draw
 
-end
+   last_char_x=char.x
+   last_char_y=char.y
+   end
