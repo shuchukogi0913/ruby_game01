@@ -1,7 +1,7 @@
 require 'dxruby'
 
 # マップデータ
-@map = [[1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+@map = [[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 1],
         [1, 0, 0, 1, 1, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 1],
         [1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -17,7 +17,6 @@ require 'dxruby'
         [1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1],
         [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1],
         [1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1]]
-
 
         maphight=18
         mapwideth=16
@@ -41,7 +40,7 @@ end
 
 
 #地面
-@map_sprites_cloud = []
+@map_sprites_ground = []
 
 for map_y in 0..15 do
   for map_x in 0..17 do
@@ -52,12 +51,12 @@ for map_y in 0..15 do
     else
         image=nil
     end
-    @map_sprites_cloud.push(Sprite.new(map_x * 32, map_y * 32, image))
+    @map_sprites_ground.push(Sprite.new(map_x * 32, map_y * 32, image))
   end
 end
 
 #雲
-@map_sprites_ground = []
+@map_sprites_cloud = []
 
 for map_y in 0..15 do
   for map_x in 0..17 do
@@ -68,7 +67,7 @@ for map_y in 0..15 do
     else
         image=nil
     end
-    @map_sprites_ground.push(Sprite.new(map_x * 32, map_y * 32, image))
+    @map_sprites_cloud.push(ground=Sprite.new(map_x * 32, map_y * 32, image))
   end
 end
 
@@ -81,6 +80,11 @@ x = 32
 y = y_prev = 32
 f = 2
 jump_ok = false
+speed=2
+wall_speed=0.5
+last_char_x=x
+last_char_y=y
+
 
 
 
@@ -90,70 +94,153 @@ char = Sprite.new(x, y, image_char)
 
 
 Window.loop do
+  
   # マップの表示
   @map_sprites.each { |sprite| sprite.draw }
   @map_sprites_cloud.each { |sprite| sprite.draw }
   @map_sprites_ground.each { |sprite| sprite.draw }
 
+  #操作
+  if Input.key_down?(K_LEFT)
+    char.x -= 1*speed
+    /for num in 0..(maphight*mapwideth)-1 do
+      if char === @map_sprites_ground[num]
+        char.x = last_char_x
+        char.x -= wall_speed
+      end
+    end/
+    
+  end
 
-  #左右移動
-  #x += Input.x * 2
-   #キャラの表示
-   #Window.draw(x, y, @char_tile)
+ if Input.key_down?(K_RIGHT)
+    char.x += 1*speed
+    /for num in 0..(maphight*mapwideth)-1 do
+      if char === @map_sprites_ground[num]
+        char.x = last_char_x
+        char.x -= wall_speed
+      end
+    end/
 
+ end
 
-
-
-
-   
-
-
-
-
-
-   if Input.key_down?(K_LEFT)
-        char.x -= 1
-   end
-
-   if Input.key_down?(K_RIGHT)
-        char.x += 1
-   end
-
-   #if Input.key_down?(K_UP)
-    #    char.y -= 1
-   #end
-   #if Input.key_down?(K_DOWN)
-    #    char.y += 1
-   #end
-  char.draw
+   /if Input.key_down?(K_UP)
+       char.y -= 1
+      end
+   if Input.key_down?(K_DOWN)
+     char.y += 1
+   end/
 
 
  #ジャンプ
-  if Input.key_push?(K_SPACE) and jump_ok
-    f = -20
-  end
+ if Input.key_push?(K_SPACE) and jump_ok
+  f = -20
+ end
+ #Ｙ軸移動増分の設定
+ y_move = (char.y - y_prev) + f
+ #座標増分が１ブロックを超えないように補正
+ if y_move > 31
+   y_move = 31
+ end
+ y_prev = char.y
+ char.y += y_move
+ f = 2 #f値を初期化し直す
 
-  #Ｙ軸移動増分の設定
-  y_move = (char.y - y_prev) + f
-  #座標増分が１ブロックを超えないように補正
-  if y_move > 31
-    y_move = 31
-  end
-  y_prev = char.y
-  char.y += y_move
-  f = 2 #f値を初期化し直す
+ #穴に落ちたら座標を初期化
+ if char.y >= 480
+   char.x = 32
+   char.y = y_prev = 0
+ end
 
-  #穴に落ちたら座標を初期化
-  if char.y >= 480
-    char.x = 32
-    char.y = y_prev = 0
+ /#地面判定
+ for num in 0..(maphight*mapwideth)-1 do
+  if char === @map_sprites_ground[num]
+    
+        char.y = last_char_y
+        
+        jump_ok = true #地面に接地しているのでジャンプを許可する
+        dx= char.x-last_char_x   
+        dy= char.y-last_char_y
+        
+  else
+   　　jump_ok = false #地面に接地していないので、ジャンプは許可しない
   end
-  
+ end/
+
+
+          for num in 0..(maphight*mapwideth)-1 do
+
+            gap_x = char.x - @map_sprites_ground[num].x
+            gap_y = char.y - @map_sprites_ground[num].y
+
+
+            if char === @map_sprites_ground[num]
+
+              if gap_x.abs > gap_y.abs
+
+                #左から衝突
+
+                if char.x < @map_sprites_ground[num].x 
+                  #char.x = @map_sprites_ground[num].x - 16
+                  #char.x=char.x/32*32
+                  char.x=last_char_x-1
+                end
+            
+                #右から衝突
+            
+                if char.x > @map_sprites_ground[num].x 
+                  #char.x = @map_sprites_ground[num].x + 16
+                  #char.x=char.x/32*32+32
+                  char.x=last_char_x+1
+                end
+
+              end
+
+            end
+    
+            if char === @map_sprites_ground[num]
+
+              if gap_x.abs < gap_y.abs
+
+                  #地面　上から
+            
+                if char.y < @map_sprites_ground[num].y   
+                  #char.y = @map_sprites_ground[num].y-32
+                  #char.y=char.y/32*32
+                  char.y=last_char_y-1
+                  jump_ok = true #地面に接地しているのでジャンプを許可する
+                else
+                  jump_ok = false #地面に接地していないので、ジャンプは許可しない
+                     
+                end
+
+              end
+            
+                #天井　下から
+            
+                if char.y > @map_sprites_ground[num].y 
+                  #char.y = @map_sprites_ground[num].y+32
+                  #char.y=char.y/32*32+32
+                  char.y=last_char_y+1
+                end
+
+             
+
+            end
+
+          end
+
+   #スクロール
     for num in 0..(maphight*mapwideth)-1 do
     
-        @map_sprites[num].x -= 1
-        @map_sprites_cloud[num].x -= 1
-        @map_sprites_ground[num].x -= 1
-      
-    end
-end
+     @map_sprites[num].x -= wall_speed
+     @map_sprites_cloud[num].x -= wall_speed
+     @map_sprites_ground[num].x -= wall_speed
+    
+   end
+
+   char.draw
+
+   last_char_x=char.x
+   last_char_y=char.y
+  end
+   

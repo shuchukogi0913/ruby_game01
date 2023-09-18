@@ -81,6 +81,7 @@ y = y_prev = 32
 f = 2
 jump_ok = false
 speed=2
+wall_speed=0.5
 last_char_x=x
 last_char_y=y
 
@@ -105,6 +106,7 @@ Window.loop do
     for num in 0..(maphight*mapwideth)-1 do
       if char === @map_sprites_ground[num]
         char.x = last_char_x
+        char.x -= wall_speed
       end
     end
     
@@ -115,6 +117,7 @@ Window.loop do
     for num in 0..(maphight*mapwideth)-1 do
       if char === @map_sprites_ground[num]
         char.x = last_char_x
+        char.x -= wall_speed
       end
     end
 
@@ -222,9 +225,9 @@ Window.loop do
    #スクロール
     for num in 0..(maphight*mapwideth)-1 do
     
-     @map_sprites[num].x -= 0.5
-     @map_sprites_cloud[num].x -= 0.5
-     @map_sprites_ground[num].x -= 0.5
+     @map_sprites[num].x -= wall_speed
+     @map_sprites_cloud[num].x -= wall_speed
+     @map_sprites_ground[num].x -= wall_speed
     
    end
 
